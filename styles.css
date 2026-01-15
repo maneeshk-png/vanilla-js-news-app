@@ -199,3 +199,20 @@
       font-size:0.9rem;
   }
 }
+
+/* login button design */
+
+.login a{
+  text-decoration: none;
+  font-size: 1.7rem;
+  color: rgb(32, 255, 32);
+  border: 2px solid green;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: rgb(45, 42, 42);
+  
+  }
+  
+  .login a li{
+      list-style: none;
+  }
