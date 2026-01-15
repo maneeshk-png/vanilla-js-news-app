@@ -3,7 +3,7 @@ const API_KEY="api_key";
 const newsContainer=document.getElementById('news-container');
 const navLinks=document.querySelectorAll(".nav a");
 
-fetchNews("latest");
+fetchNews("general");
 
 navLinks.forEach(link=>{
     link.addEventListener("click",(e)=>{
@@ -14,12 +14,16 @@ navLinks.forEach(link=>{
 })
 
 async function fetchNews(keyword){
-    const url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&q=${keyword}&language=en`;
+    const url = `https://gnews.io/api/v4/top-headlines?category=${keyword}&lang=en&country=us&max=10&apikey=${API_KEY}`;
     try{
         const response=await fetch(url);
         const data=await response.json();
+
         console.log(data);
-        renderNews(data.results);
+
+        renderNews(data.articles);
+
+        console.log(data.results);
 
     }catch(error){
         newsContainer.innerHTML="<p>Something went wrong</p>";
@@ -31,7 +35,6 @@ function cleanText(text = "") {
   }
   
 
-
 function renderNews(articles){
     newsContainer.innerHTML="";
 
@@ -40,15 +43,20 @@ function renderNews(articles){
         const artDiv=document.createElement("div");
         artDiv.className="news-card";
         
-        const image = article.image_url
-      ? `<img src="${article.image_url}" alt="news image">`
-      : "";
-
         artDiv.innerHTML=
-        `${image}<h3>${article.title}</h3>
+        `<img class="placeholder-image" src="${article.image || 'assets/placeholder.jpg'}" alt="article image" >
+        <h3>${article.title}</h3>
         <p>${cleanText(article.description) ||""}</p>
-        <a href="${article.link}" target="_blank">Read more</a>`;
+        <button class="read-more">Read More</button>`;
         newsContainer.appendChild(artDiv);
+        const readMoreBTn=artDiv.querySelector(".read-more");
+        readMoreBTn.addEventListener("click",()=>{
+            sessionStorage.setItem(
+                "selectedArticle",
+                JSON.stringify(article)
+            )
+            window.location.href="article.html";
+        })
         });
 }
 
