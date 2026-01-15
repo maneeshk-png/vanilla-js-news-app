@@ -23,7 +23,6 @@ async function fetchNews(keyword){
 
         renderNews(data.articles);
 
-        console.log(data.results);
 
     }catch(error){
         newsContainer.innerHTML="<p>Something went wrong</p>";
